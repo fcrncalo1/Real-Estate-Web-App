@@ -1,0 +1,43 @@
+html {
+    background-color: #fdf1d3;
+}
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    width: 400px;
+    padding: 30px;
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+    margin: 100px auto;
+}
+
+.container img {
+    object-fit: cover;
+    width: 50%;
+    margin-bottom: 30px;
+}
+
+.input-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    text-align: left;
+    margin-right: 10px;
+    width: 30%;
+    font-size: 18px;
+}
+
+.input-group input[type="text"],
+.input-group input[type="password"] {
+    margin-left: auto;
+    padding: 12px;
+    font-size: 18px;
+    width: 40%;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+}
