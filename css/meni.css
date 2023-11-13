@@ -22,6 +22,7 @@ ul li a {
 
 iframe {
     margin-top: 50px;
+    border: none;
 }
 
 ul li a:hover {

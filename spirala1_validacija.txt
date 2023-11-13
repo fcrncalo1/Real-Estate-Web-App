@@ -1,0 +1,18 @@
+Za validaciju HTML datoteka korišten je: https://validator.w3.org/
+Za validaciju CSS datoteka korišten je: https://jigsaw.w3.org/css-validator/
+
+HTML datoteke:
+1. detalji.html - nema grešaka
+2. meni.html - 3 greške Napomena
+3. nekretnine.html - 10 grešaka
+4. prijava.html - nema grešaka
+5. profil.html - nema grešaka
+
+CSS datoteke:
+1. detalji.css - nema grešaka
+2. meni.css - nema grešaka
+3. nekretnine.css - nema grešaka
+4. profil.css - nema grešaka
+
+Napomena: Datoteka meni.css je promijenjena isključivo zbog toga što bi korekcija meni.html 
+          datoteke dovela do pisanja css koda u samom html tagu, a to je loša praksa.
