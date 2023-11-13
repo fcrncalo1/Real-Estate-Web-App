@@ -1,0 +1,7 @@
+Za modifikaciju drugog zadatka morao sam ubaciti media query u profil.css file
+i stavio svojstvo za img element float: right;, promijenio sirinu i visinu containera u kojem
+se nalaze podaci za profil i stavio svojstvo form taga na float: right;
+
+Također sam morao promijeniti datoteke meni.html i meni.css gdje sam atribute height i width
+iz iframe taga prebacio u css i postavio width iframe taga na 100%, jer u suprotnom se ne bi
+promijenio izgled profila, tj. slika se ne bi prikazivala lijeov od polja sa korisničkim podacima
