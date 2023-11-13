@@ -14,5 +14,7 @@ CSS datoteke:
 3. nekretnine.css - nema grešaka
 4. profil.css - nema grešaka
 
-Napomena: Datoteka meni.css je promijenjena isključivo zbog toga što bi korekcija meni.html 
-          datoteke dovela do pisanja css koda u samom html tagu, a to je loša praksa.
+Napomena: 1. Datoteka meni.css je promijenjena isključivo zbog toga što bi korekcija meni.html 
+             datoteke dovela do pisanja css koda u samom html tagu, a to je loša praksa.
+          2. Nakon validacije nekretnine.html samo sam zaboravio ažurirati nekretnine.css
+             gdje sam umjesto selektora # stavio selektor .
