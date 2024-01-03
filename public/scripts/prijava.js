@@ -19,7 +19,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     window.location.href = 'nekretnine.html';
                 }
                 else {
-                    localStorage.setItem('prijavljen', 'true');
                     window.location.href = 'meni.html';    
                 }
             }

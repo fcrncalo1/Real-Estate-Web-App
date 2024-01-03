@@ -47,7 +47,7 @@ app.get('/:pageName.html', (req, res) => {
         return res.sendFile(path.join(__dirname, 'public/html', `${pageName}.html`));
     }
 
-    if (!req.session.username) {
+    if (!req.session.username && pageName === 'profil') {
         return res.status(401).json({ greska: 'Neautorizovan pristup' });
     }
     

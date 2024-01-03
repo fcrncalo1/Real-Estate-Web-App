@@ -18,10 +18,19 @@ function prikaziOpcijeMenija(prijavljen) {
 }
 
 function odjava() {
-    prikaziOpcijeMenija(false);
-    localStorage.setItem('prijavljen', 'false');
-    window.location.href = 'meni.html';
+    PoziviAjax.postLogout(function(error, data) {
+        prikaziOpcijeMenija(false);
+        document.querySelector('iframe[name="sadrzajFrame"]').src = "prijava.html";
+    })    
 }
 
-let prijavljen = localStorage.getItem('prijavljen') === 'true';
-prikaziOpcijeMenija(prijavljen);
+PoziviAjax.getKorisnik((error, data) => {
+    if (error) {
+        prikaziOpcijeMenija(false);
+        document.querySelector('iframe[name="sadrzajFrame"]').src = "prijava.html";
+    }
+    else {
+        prikaziOpcijeMenija(true);
+        document.querySelector('iframe[name="sadrzajFrame"]').src = "nekretnine.html";    
+    }
+});
