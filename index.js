@@ -3,20 +3,19 @@ const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
 const fs = require('fs');
 const session = require('express-session');
-const util = require('util');
+const path = require('path');
 
 const app = express();
 const port = 3000;
 
 app.use(bodyParser.json());
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(session({
     secret: 'neka tajna sifra',
     resave: true,
     saveUninitialized: true
 }));
-
-const hashAsync = util.promisify(bcrypt.hash);
 
 async function ucitajKorisnike() {
     try {
@@ -39,6 +38,21 @@ async function ucitajNekretnine() {
         throw error;
     }
 }
+
+app.get('/:pageName.html', (req, res) => {
+
+    const pageName = req.params.pageName;
+
+    if (pageName === 'prijava' || pageName === 'meni') {
+        return res.sendFile(path.join(__dirname, 'public/html', `${pageName}.html`));
+    }
+
+    if (!req.session.username) {
+        return res.status(401).json({ greska: 'Neautorizovan pristup' });
+    }
+    
+    res.sendFile(path.join(__dirname, 'public/html', `${pageName}.html`));
+});
 
 app.post('/login', (req, res) => {
     fs.readFile('data/korisnici.json', 'utf8', (err, data) => {
@@ -144,7 +158,7 @@ app.put('/korisnik', async (req, res) => {
     }
 });
 
-app.get('/nekretnine', async (req, res) => {
+app.get('/nekretnine', (req, res) => {
     fs.readFile('data/nekretnine.json', 'utf8', (err, data) => {
         if (err) {
             console.error('Greška prilikom čitanja nekretnina:', err);
