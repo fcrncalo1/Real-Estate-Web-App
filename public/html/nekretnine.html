@@ -7,6 +7,13 @@
     <title>Nekretnine</title>
 </head>
 <body>
+    <div id="pretraga">
+        <input type="text" id="minCijena" name="minCijena" placeholder="Min. cijena (KM)" pattern="\d*">
+        <input type="text" id="maxCijena" name="maxCijena" placeholder="Max. cijena (KM)" pattern="\d*">
+        <input type="text" id="minKvadratura" name="minKvadratura" placeholder="Min. kvadratura (m²)" pattern="\d*">
+        <input type="text" id="maxKvadratura" name="maxKvadratura" placeholder="Max. kvadratura (m²)" pattern="\d*">
+        <button id="btnPretrazi" onclick="pretraziNekretnine()">Pretraži</button>
+    </div>
     <h2>Stan</h2>
     <div id="stan" class="grid-container">
         <div class="grid-item">
@@ -60,6 +67,7 @@
             <button>Detalji</button>
         </div>
     </div>
+    <script src="../scripts/MarketingAjax.js"></script>
     <script src="../scripts/PoziviAjax.js"></script>
     <script src="../scripts/SpisakNekretnina.js"></script>  
     <script src="../scripts/nekretnine.js"></script>  

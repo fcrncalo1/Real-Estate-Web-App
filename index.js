@@ -169,6 +169,21 @@ app.get('/nekretnine', (req, res) => {
     });    
 });
 
+app.post('/marketing/nekretnine', (req, res) => {
+    const { nizNekretnina } = req.body;
+    res.sendStatus(200);
+});
+
+app.post('/marketing/nekretnina/:id', (req, res) => {
+    const { id } = req.params;
+    res.sendStatus(200);
+});
+
+app.post('/marketing/osvjezi', (req, res) => {
+    const { nizNekretnina } = req.body;
+    res.status(200).json();
+});
+
 app.listen(port, () => {
     console.log(`Server pokrenut na http://localhost:${port}`);
 });

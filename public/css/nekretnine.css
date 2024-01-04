@@ -57,3 +57,34 @@ body {
     display: block;
     text-align: right;
 }
+
+#pretraga {
+    display: flex; 
+    align-items: center; 
+    margin-bottom: 20px;
+    margin-top: 10px;
+}
+
+#pretraga input {
+    font-size: 15px;
+    width: 140px; 
+    padding: 10px; 
+    border: 1px solid #ccc; 
+    border-radius: 5px; 
+    margin-right: 10px;
+    text-align: center;
+}
+
+#btnPretrazi {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: 1px solid #4CAF50;
+    border-radius: 5px;
+    cursor: pointer;
+    height: 100%;
+}
+
+#btnPretrazi:hover {
+    background-color: #45a049;
+}

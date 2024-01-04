@@ -122,12 +122,74 @@ const PoziviAjax = (() => {
         xhr.send();
     }
 
+    function impl_postMarketingNekretnine(nizNekretnina, fnCallback) {
+        const xhr = new XMLHttpRequest();
+        const data = { nizNekretnina };
+
+        xhr.open('POST', 'http://localhost:3000' + '/marketing/nekretnine', true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    fnCallback(null, xhr.responseText);
+                } else {
+                    fnCallback(`Greška: ${xhr.status}`, null);
+                }
+            }
+        };
+
+        xhr.send(JSON.stringify(data));
+    }
+
+    function impl_postMarketingNekretninaId(fnCallback) {
+        const xhr = new XMLHttpRequest();
+        
+        xhr.open('POST', 'http://localhost:3000' + '/marketing/nekretnina/:id', true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    fnCallback(null, xhr.responseText);
+                } else {
+                    fnCallback(`Greška: ${xhr.status}`, null);
+                }
+            }
+        };
+
+        xhr.send();
+    }
+
+    function impl_postMarketingOsvjezi(nizNekretnina, fnCallback) {
+        const xhr = new XMLHttpRequest();
+        const data = { nizNekretnina };
+        
+        xhr.open('POST', 'http://localhost:3000' + '/marketing/osvjezi', true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    fnCallback(null, JSON.parse(xhr.responseText));
+                } else {
+                    fnCallback(`Greška: ${xhr.status}`, null);
+                }
+            }
+        };
+
+        xhr.send(JSON.stringify(data));
+    }
+
     return {
         postLogin: impl_postLogin,
         postLogout: impl_postLogout,
         getKorisnik: impl_getKorisnik,
         putKorisnik: impl_putKorisnik,
         postUpit: impl_postUpit,
-        getNekretnine: impl_getNekretnine
+        getNekretnine: impl_getNekretnine,
+        postMarketingNekretnine: impl_postMarketingNekretnine,
+        postMarketingNekretninaId: impl_postMarketingNekretninaId,
+        postMarketingOsvjezi: impl_postMarketingOsvjezi
     };
 })();
