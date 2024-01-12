@@ -23,16 +23,39 @@ function spojiNekretnine(divReferenca, instancaModula, tip_nekretnine) {
         <h3>${nekretnina.naziv}</h3>
         <p>Kvadratura: ${nekretnina.kvadratura} m²</p>
         <p class="cijena">Cijena: ${nekretnina.cijena} KM</p>
-        <div style="display: none; justify-content: space-between; margin-bottom: 10px;">
-        <div id="pretrage-idNekretnine">Broj pretraga:</div>
-        <div id="klikovi-idNekretnine">Broj klikova:</div>
-        </div>
-        <button>Detalji</button>
+        <p class="lokacija" style="display: none;">Lokacija: ${nekretnina.lokacija}</p>
+        <p class="godina-izgradnje" style="display: none;">Godina izgradnje: ${nekretnina.godina_izgradnje}</p>
+        <button onclick="info(this)">Detalji</button>
+        <button onclick="otvoriDetalje(${nekretnina.id})" style="display: none;">Otvori detalje</button>
       `;
       divReferenca.appendChild(nekretninaDiv);
     });
   }
   return filtriraneNekretnine;
+}
+
+function info(button) {
+  const nekretninaDiv = button.parentElement;
+  const lokacijaParagraph = nekretninaDiv.querySelector('.lokacija');
+  const godinaIzgradnjeParagraph = nekretninaDiv.querySelector('.godina-izgradnje');
+  const detaljiButton = nekretninaDiv.querySelector('button');
+  const otvoriDetaljeButton = nekretninaDiv.querySelector('button:nth-of-type(2)');
+
+  lokacijaParagraph.style.display = (lokacijaParagraph.style.display === 'none') ? 'block' : 'none';
+  godinaIzgradnjeParagraph.style.display = (godinaIzgradnjeParagraph.style.display === 'none') ? 'block' : 'none';
+
+  detaljiButton.style.display = (detaljiButton.style.display === 'none') ? 'block' : 'none';
+  otvoriDetaljeButton.style.display = (otvoriDetaljeButton.style.display === 'none') ? 'block' : 'none';
+}
+
+function otvoriDetalje(nekretnina_id) {
+  PoziviAjax.getNekretninaById(nekretnina_id, (error, nekretnina) => {
+    if (error) {
+      console.error('Greška pri dohvatu detalja:', error);
+      return;
+    }
+    window.location.href = `detalji.html?id=${nekretnina.id}&tip_nekretnine=${nekretnina.tip_nekretnine}&naziv=${nekretnina.naziv}&kvadratura=${nekretnina.kvadratura}&cijena=${nekretnina.cijena}&tip_grijanja=${nekretnina.tip_grijanja}&lokacija=${nekretnina.lokacija}&godina_izgradnje=${nekretnina.godina_izgradnje}&datum_objave=${nekretnina.datum_objave}&opis=${nekretnina.opis}`;
+  });
 }
 
 PoziviAjax.getNekretnine(function(error, data) {

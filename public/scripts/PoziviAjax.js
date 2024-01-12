@@ -181,6 +181,25 @@ const PoziviAjax = (() => {
         xhr.send(JSON.stringify(data));
     }
 
+    function impl_getNekretninaById(nekretnina_id, fnCallback) {
+        const xhr = new XMLHttpRequest();
+
+        xhr.open('GET', 'http://localhost:3000' + '/nekretnina/' + nekretnina_id, true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    fnCallback(null, JSON.parse(xhr.responseText));
+                } else {
+                    fnCallback(`Greška: ${xhr.status}`, null);
+                }
+            }
+        };
+
+        xhr.send();
+    }
+    
     return {
         postLogin: impl_postLogin,
         postLogout: impl_postLogout,
@@ -190,6 +209,7 @@ const PoziviAjax = (() => {
         getNekretnine: impl_getNekretnine,
         postMarketingNekretnine: impl_postMarketingNekretnine,
         postMarketingNekretninaId: impl_postMarketingNekretninaId,
-        postMarketingOsvjezi: impl_postMarketingOsvjezi
+        postMarketingOsvjezi: impl_postMarketingOsvjezi,
+        getNekretninaById: impl_getNekretninaById
     };
 })();

@@ -200,6 +200,21 @@ app.get('/nekretnine', async (req, res) => {
     res.status(200).json(nekretnine);  
 });
 
+app.get('/nekretnina/:id', async (req, res) => {
+    const nekretnina_id = req.params.id;
+    const nekretnina = await Nekretnina.findOne({
+        attributes: ['id', 'tip_nekretnine', 'naziv', 'kvadratura', 'cijena', 'tip_grijanja', 'lokacija', 'godina_izgradnje', 'datum_objave', 'opis'],
+        where: {
+            id: nekretnina_id
+        }
+    });
+    
+    if(nekretnina)
+        res.status(200).json(nekretnina);
+    else
+        res.status(400).json( { greska:`Nekretnina sa id-em ${nekretnina_id} ne postoji` } );
+});
+
 app.post('/marketing/nekretnine', (req, res) => {
     const { nizNekretnina } = req.body;
     res.sendStatus(200);
