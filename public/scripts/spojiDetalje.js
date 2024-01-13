@@ -1,6 +1,4 @@
-// detalji.js
 document.addEventListener('DOMContentLoaded', function () {
-    // Retrieve details from URL parameters
     const urlParams = new URLSearchParams(window.location.search);
     const id = urlParams.get('id');
     const tip_nekretnine = urlParams.get('tip_nekretnine');
@@ -12,6 +10,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const godina_izgradnje = urlParams.get('godina_izgradnje');
     const datum_objave = urlParams.get('datum_objave');
     const opis = urlParams.get('opis');
+    const upitiString = urlParams.get('upiti');
+    const upiti = JSON.parse(decodeURIComponent(upitiString));
 
     let osnovnoDiv = document.getElementById('osnovno');
     osnovnoDiv.innerHTML = "";
@@ -36,6 +36,15 @@ document.addEventListener('DOMContentLoaded', function () {
         <p class="opis"><strong>Opis</strong>: ${opis}</p>
     `;
     let upitiDiv = document.getElementById('upiti');
-    upitiDiv.innerHTML = "";
-    upitiDiv.innerHTML = "<h3>UPITI</h3>";
+    upitiDiv.innerHTML = `<h3>UPITI</h3>`;
+    upiti.forEach(upit => {
+        upitiDiv.innerHTML += `
+        <ul>
+            <li>
+                <span class="username">${upit.korisnik.username}:</span>
+                <span class="upit">${upit.tekst_upita}</span>
+            </li>
+        </ul>
+        `;
+    });
 });

@@ -54,7 +54,8 @@ function otvoriDetalje(nekretnina_id) {
       console.error('Greška pri dohvatu detalja:', error);
       return;
     }
-    window.location.href = `detalji.html?id=${nekretnina.id}&tip_nekretnine=${nekretnina.tip_nekretnine}&naziv=${nekretnina.naziv}&kvadratura=${nekretnina.kvadratura}&cijena=${nekretnina.cijena}&tip_grijanja=${nekretnina.tip_grijanja}&lokacija=${nekretnina.lokacija}&godina_izgradnje=${nekretnina.godina_izgradnje}&datum_objave=${nekretnina.datum_objave}&opis=${nekretnina.opis}`;
+    const upitiString = encodeURIComponent(JSON.stringify(nekretnina.upiti));
+    window.location.href = `detalji.html?id=${nekretnina.id}&tip_nekretnine=${nekretnina.tip_nekretnine}&naziv=${nekretnina.naziv}&kvadratura=${nekretnina.kvadratura}&cijena=${nekretnina.cijena}&tip_grijanja=${nekretnina.tip_grijanja}&lokacija=${nekretnina.lokacija}&godina_izgradnje=${nekretnina.godina_izgradnje}&datum_objave=${nekretnina.datum_objave}&opis=${nekretnina.opis}&upiti=${upitiString}`;
   });
 }
 

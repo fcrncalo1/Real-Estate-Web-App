@@ -1,14 +1,13 @@
 const Sequelize = require("sequelize");
-const sequelize = require("./baza.js");
 
-const Korisnik = sequelize.define('korisnik', {
-    ime: Sequelize.STRING,
-    prezime: Sequelize.STRING,
-    username: Sequelize.STRING,
-    password: Sequelize.STRING
-}, {
-    timestamps: false,
-    tableName: 'korisnik'
-});
-
-module.exports = Korisnik;
+module.exports = (sequelize, DataTypes) => {
+    return sequelize.define('korisnik', {
+        ime: DataTypes.STRING,
+        prezime: DataTypes.STRING,
+        username: DataTypes.STRING,
+        password: DataTypes.STRING
+    }, {
+        timestamps: false,
+        tableName: 'korisnik'
+    });
+};

@@ -4,11 +4,10 @@ const bcrypt = require('bcrypt');
 const fs = require('fs');
 const session = require('express-session');
 const path = require('path');
-const sequelize = require('./baza.js');
+const db = require('./baza.js');
 const Korisnik = require('./korisnik.js');
 const Nekretnina = require('./nekretnina.js');
 const Upit = require('./upit.js');
-sequelize.sync();
 
 const app = express();
 const port = 3000;
@@ -21,28 +20,6 @@ app.use(session({
     resave: true,
     saveUninitialized: true
 }));
-
-async function ucitajKorisnike() {
-    try {
-        const korisnici = await Korisnik.findAll({
-            attributes: ['ime','prezime', 'username', 'password']
-        });
-        return korisnici;
-    } catch (error) {
-        console.error('Greška prilikom čitanja korisnika:', error);
-        throw error;
-    }
-}
-
-async function ucitajNekretnine() {
-    try {
-        const nekretnine = await Nekretnina.findAll();
-        return nekretnine;
-    } catch (error) {
-        console.error('Greška prilikom čitanja nekretnina:', error);
-        throw error;
-    }
-}
 
 app.get('/:pageName.html', (req, res) => {
 
@@ -60,7 +37,7 @@ app.get('/:pageName.html', (req, res) => {
 });
 
 app.post('/login', async (req, res) => {     
-    const korisnici = await Korisnik.findAll({
+    const korisnici = await db.korisnik.findAll({
         attributes: ['ime','prezime', 'username', 'password']
     });
     const { username, password } = req.body;
@@ -86,7 +63,7 @@ app.post('/logout', (req, res) => {
 
 app.get('/korisnik', async (req, res) => {
     if (req.session.username) {
-        const korisnici = await Korisnik.findAll({
+        const korisnici = await db.korisnik.findAll({
             attributes: ['ime','prezime', 'username', 'password']
         });
         const korisnik = korisnici.find(k => k.username === req.session.username);
@@ -99,10 +76,10 @@ app.get('/korisnik', async (req, res) => {
 app.post('/upit', async (req, res) => {
     if (req.session.username) {
         const { nekretnina_id, tekst_upita } = req.body;
-        const korisnici = await Korisnik.findAll({
+        const korisnici = await db.korisnik.findAll({
             attributes: ['id','ime','prezime', 'username', 'password']
         });
-        const nekretnine = await Nekretnina.findAll({
+        const nekretnine = await db.nekretnina.findAll({
             attributes: ['id','tip_nekretnine','naziv','kvadratura', 'cijena','tip_grijanja','lokacija','godina_izgradnje','datum_objave','opis']
         });
         const korisnik = korisnici.find(k => k.username === req.session.username);
@@ -112,7 +89,7 @@ app.post('/upit', async (req, res) => {
             return;
         }
         
-        Upit.create({
+        db.upit.create({
             "korisnik_id": korisnik.id,
             "tekst_upita": tekst_upita,
             "nekretnina_id": nekretnina_id
@@ -132,7 +109,7 @@ app.put('/korisnik', async (req, res) => {
     if (req.session.username) {
         const { ime, prezime, username, password } = req.body;
 
-        const korisnici = await Korisnik.findAll({
+        const korisnici = await db.korisnik.findAll({
             attributes: ['id','ime','prezime', 'username', 'password']
         });
         const indeks = korisnici.findIndex(k => k.username === req.session.username);
@@ -150,7 +127,7 @@ app.put('/korisnik', async (req, res) => {
             if (password) {
                 bcrypt.hash(password, 10, function(err, hash) {
                     updatedValues.password = hash;
-                    Korisnik.update(updatedValues, {
+                    db.korisnik.update(updatedValues, {
                         where: {
                             id: indeks+1
                         }
@@ -169,7 +146,7 @@ app.put('/korisnik', async (req, res) => {
                 });
             }
             else {
-                Korisnik.update(updatedValues, {
+                db.korisnik.update(updatedValues, {
                     where: {
                         id: indeks+1
                     }
@@ -194,7 +171,7 @@ app.put('/korisnik', async (req, res) => {
 });
 
 app.get('/nekretnine', async (req, res) => {
-    const nekretnine = await Nekretnina.findAll({
+    const nekretnine = await db.nekretnina.findAll({
         attributes: ['id','tip_nekretnine','naziv','kvadratura', 'cijena','tip_grijanja','lokacija','godina_izgradnje','datum_objave','opis']
     });
     res.status(200).json(nekretnine);  
@@ -202,8 +179,19 @@ app.get('/nekretnine', async (req, res) => {
 
 app.get('/nekretnina/:id', async (req, res) => {
     const nekretnina_id = req.params.id;
-    const nekretnina = await Nekretnina.findOne({
+    const nekretnina = await db.nekretnina.findOne({
         attributes: ['id', 'tip_nekretnine', 'naziv', 'kvadratura', 'cijena', 'tip_grijanja', 'lokacija', 'godina_izgradnje', 'datum_objave', 'opis'],
+        include: [{
+            model: db.upit,
+            attributes: ['id', 'tekst_upita'],
+            include: {
+                model: db.korisnik,
+                attributes: ['id', 'ime', 'prezime', 'username'],
+                as: 'korisnik'
+            },
+            as: 'upiti',
+            where: { nekretnina_id: nekretnina_id }
+        }],
         where: {
             id: nekretnina_id
         }
