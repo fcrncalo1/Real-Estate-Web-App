@@ -3,6 +3,7 @@ const sequelize = new Sequelize("wt24","root","password",{host:"localhost",diale
 const db={};
 
 // Moj drugi komentar
+// Moj komentar
 db.Sequelize = Sequelize;  
 db.sequelize = sequelize;
 
